@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team — Meeting Coach MVP</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="team">
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-toolbar">
+          <div class="brand">Meetingly</div>
+          <button type="button" class="sidebar-toggle-btn" aria-expanded="true" title="Collapse menu" aria-label="Collapse navigation">‹</button>
+        </div>
+        <nav class="menu">
+          <a class="menu-item" href="/index.html">Home</a>
+          <a class="menu-item" href="/meetings.html">Meetings</a>
+          <a class="menu-item" href="/uploads.html">Uploads</a>
+          <a class="menu-item" href="/analytics.html">Analytics</a>
+          <a class="menu-item active" href="/team.html">Team</a>
+          <a class="menu-item" href="/settings.html">Settings</a>
+        </nav>
+        <div class="sidebar-auth-block">
+          <a class="sidebar-auth-btn sidebar-auth-btn--solo" href="/login.html">Sign in with Google / email</a>
+        </div>
+      </aside>
+
+      <main class="content content-team-hub">
+        <p id="pageError" class="upload-view-banner-error"></p>
+
+        <div class="team-hub-shell">
+          <aside class="team-hub-rail card">
+            <a class="team-hub-back" href="/meetings.html">← Back to meetings</a>
+            <div class="team-hub-rail-title">Settings</div>
+            <p class="team-hub-rail-sub muted">Team workspace</p>
+            <nav class="team-hub-local-nav">
+              <a class="team-hub-local-link" href="/settings.html#settings-recording">Recording &amp; transcripts</a>
+              <a class="team-hub-local-link" href="/settings.html#settings-privacy">Privacy &amp; access</a>
+              <a class="team-hub-local-link" href="/settings.html#settings-email">Email &amp; notifications</a>
+              <a class="team-hub-local-link" href="/settings.html#settings-integrations">Integrations</a>
+              <span class="team-hub-local-link team-hub-local-link--active">Members and groups</span>
+              <a class="team-hub-local-link" href="/login.html">Account</a>
+            </nav>
+          </aside>
+
+          <div class="team-hub-main">
+            <header class="team-hub-topbar card">
+              <label class="visually-hidden" for="teamHubGlobalSearch">Search</label>
+              <input
+                id="teamHubGlobalSearch"
+                type="search"
+                class="team-hub-top-search"
+                placeholder="Search by title or keyword"
+                autocomplete="off"
+              />
+              <span class="team-hub-top-badge">Unlimited Meetings</span>
+            </header>
+
+            <div class="team-pill-tabs card">
+              <button type="button" class="team-pill-tab team-pill-tab--active" data-team-sub="mates">
+                <span id="teamTabMatesLabel">Invite</span>
+              </button>
+              <button type="button" class="team-pill-tab" data-team-sub="groups">
+                <span id="teamTabGroupsLabel">Groups</span>
+              </button>
+              <span class="team-pill-tab team-pill-tab--soon" title="Coming soon">Advanced settings</span>
+            </div>
+
+            <section class="team-members-sheet card" id="teamPanelTeammates">
+              <header class="team-invite-inline-header">
+                <h3 class="team-invite-inline-title">Invite by email</h3>
+                <p class="muted team-invite-inline-lead" id="teamInviteLead"></p>
+              </header>
+              <form id="teamInviteForm" class="team-invite-inline-form" novalidate>
+                <label class="visually-hidden" for="teamInviteEmailInput">Email address</label>
+                <div class="team-invite-email-field">
+                  <input
+                    type="email"
+                    id="teamInviteEmailInput"
+                    name="inviteEmail"
+                    autocomplete="email"
+                    required
+                    placeholder="name@company.com"
+                  />
+                  <button type="submit" class="primary-btn team-invite-submit-btn">Send invitation</button>
+                </div>
+                <label class="team-invite-group-field muted">
+                  <span>Optional group mentioned in the email</span>
+                  <select id="teamInviteGroupSelect"></select>
+                </label>
+                <p class="muted team-invite-footnote-inline" id="teamInviteFootnote"></p>
+              </form>
+              <hr class="team-invite-rule" aria-hidden="true" />
+              <p class="tiny-title team-invites-heading" id="teamInvitesHeading" hidden>Pending invitations</p>
+              <ul class="team-invite-preview-list muted hidden" id="teamInvitesList" aria-label="Recent invitations"></ul>
+            </section>
+
+            <section class="card team-groups-sheet hidden" id="teamPanelGroups">
+              <div class="team-groups-header">
+                <div>
+                  <h3 class="team-groups-title">User groups</h3>
+                  <p class="muted team-groups-lead">
+                    Groups bundle teammates for shortcuts and onboarding. Invites can optionally tag a group in the invitation email when SMTP is configured.
+                  </p>
+                </div>
+                <button type="button" class="primary-btn team-groups-new-btn" id="teamNewGroupBtn">
+                  + New group
+                </button>
+              </div>
+              <ul class="team-groups-list" id="teamGroupsList" aria-live="polite"></ul>
+              <p id="teamGroupsEmpty" class="muted team-groups-empty-msg hidden">
+                No groups yet. Create one, then attach members using “Edit members”.
+              </p>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <dialog id="teamGroupDialog" class="team-modal-dialog">
+      <form id="teamGroupForm" class="team-modal-form">
+        <h3 class="team-modal-title" id="teamGroupModalTitle">New group</h3>
+        <input type="hidden" id="teamGroupEditingId" value="" />
+        <label class="team-modal-field">
+          <span>Group name</span>
+          <input type="text" id="teamGroupNameInput" required maxlength="80" autocomplete="organization" placeholder="e.g. Sales West" />
+        </label>
+        <label class="team-modal-field">
+          <span>Description (optional)</span>
+          <textarea id="teamGroupDescInput" rows="3" maxlength="400" placeholder="Who belongs here"></textarea>
+        </label>
+        <fieldset class="team-group-members-fieldset">
+          <legend class="team-group-members-legend">Members</legend>
+          <div id="teamGroupMemberChecks" class="team-group-member-checks"></div>
+        </fieldset>
+        <div class="team-modal-actions">
+          <button type="button" class="ghost-btn" id="teamGroupDismissBtn">Cancel</button>
+          <button type="submit" class="primary-btn" id="teamGroupSaveBtn">Save group</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/sidebar-toggle.js"></script>
+    <script src="/coach-focus.js"></script>
+    <script src="/dashboard.js"></script>
+  </body>
+</html>

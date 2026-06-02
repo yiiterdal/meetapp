@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meetings - Meeting Coach MVP</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="meetings">
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-toolbar">
+          <div class="brand">Meetingly</div>
+          <button type="button" class="sidebar-toggle-btn" aria-expanded="true" title="Collapse menu" aria-label="Collapse navigation">‹</button>
+        </div>
+        <nav class="menu">
+          <a class="menu-item" href="/index.html">Home</a>
+          <a class="menu-item active" href="/meetings.html">Meetings</a>
+          <a class="menu-item" href="/uploads.html">Uploads</a>
+          <a class="menu-item" href="/analytics.html">Analytics</a>
+          <a class="menu-item" href="/team.html">Team</a>
+          <a class="menu-item" href="/settings.html">Settings</a>
+        </nav>
+      </aside>
+      <main class="content content-meetings-hub">
+        <p id="pageError" class="upload-view-banner-error"></p>
+
+        <header class="meetings-hub-head">
+          <div class="meetings-hub-brand-row">
+            <div class="meetings-hub-titles">
+              <h1 class="meetings-hub-title">Meetings</h1>
+              <nav class="meetings-subnav" aria-label="Meeting scopes">
+                <button type="button" class="meetings-subnav-pill meetings-subnav-pill-active" data-meetings-tab="list">
+                  All meetings
+                </button>
+                <button type="button" class="meetings-subnav-pill" data-meetings-tab="voice" title="Speech-to-text coach Q&amp;A">
+                  Voice agent
+                </button>
+              </nav>
+            </div>
+            <div class="meetings-hub-top-actions">
+              <a href="/team.html" class="meetings-invite-btn">+ Invite</a>
+              <details class="meetings-capture-dd">
+                <summary class="meetings-capture-btn">Capture</summary>
+                <div class="meetings-capture-menu">
+                  <a href="/index.html#capture">New recording — Home</a>
+                  <a href="/uploads.html">Upload file</a>
+                  <a href="/index.html#schedule">Schedule meeting</a>
+                  <a href="https://meet.google.com/new" target="_blank" rel="noopener noreferrer">
+                    Google Meet
+                  </a>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <label class="meetings-global-search-label">
+            <span class="visually-hidden">Search meetings</span>
+            <svg class="meetings-search-glyph" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 001.57-4.23 6.5 6.5 0 10-6.5 6.5c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+              />
+            </svg>
+            <input
+              type="search"
+              id="meetingsGlobalSearch"
+              class="meetings-global-search"
+              placeholder="Search by title or keyword"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <span class="meetings-hub-kbd" id="meetingsSearchKbdHint">Ctrl + K</span>
+          </label>
+
+          <div class="meetings-hub-kpis" aria-live="polite">
+            <div class="meetings-mini-kpi"><span id="kpiTotalMeetings">-</span> total</div>
+            <div class="meetings-mini-kpi"><span id="kpiTranscriptsReady">-</span> transcripts ready</div>
+            <div class="meetings-mini-kpi"><span id="kpiNeedsReview">-</span> need review</div>
+          </div>
+        </header>
+
+        <section
+          class="card meetings-google-cal meetings-hub-list-mode"
+          id="meetingsGoogleCalSection"
+          aria-labelledby="meetingsGoogleCalHeading"
+        >
+          <div class="meetings-google-cal-head">
+            <h2 id="meetingsGoogleCalHeading" class="meetings-google-cal-title">Upcoming · Google Calendar</h2>
+            <button type="button" class="ghost-btn meetings-google-cal-refresh" id="meetingsGoogleCalRefreshBtn" hidden>
+              Refresh
+            </button>
+          </div>
+          <p id="meetingsGoogleCalStatus" class="meetings-google-cal-status muted"></p>
+          <p class="meetings-google-cal-scope muted">
+            Calendar is read-only here: Meet links open in a new tab. There is no auto-join recorder or Meet bot in this MVP.
+          </p>
+          <ul id="meetingsGoogleCalList" class="google-cal-events-list meetings-google-cal-list" aria-live="polite"></ul>
+          <p id="meetingsGoogleCalHint" class="meetings-google-cal-hint muted hidden"></p>
+        </section>
+
+        <section id="meetingsVoiceSection" class="card meetings-voice-section hidden">
+          <h2 class="meetings-voice-title">Voice agent</h2>
+          <p class="muted meetings-voice-lead">
+            Choose a meeting with a transcript and ask the coach by voice (uses your browser&apos;s speech recognition; works best in Chromium).
+          </p>
+          <label class="meetings-voice-field">
+            <span class="meetings-voice-label">Meeting</span>
+            <select id="meetingsVoiceMeetingSelect" class="meetings-voice-select"></select>
+          </label>
+          <p id="meetingsVoiceSrStatus" class="muted" role="status"></p>
+          <div class="meetings-voice-actions">
+            <button type="button" class="ghost-btn" id="meetingsVoiceMicBtn">Speak question</button>
+            <button type="button" class="primary-btn" id="meetingsVoiceAskBtn">Send to coach</button>
+          </div>
+          <label class="meetings-voice-field">
+            <span class="meetings-voice-label">Question</span>
+            <textarea id="meetingsVoiceQuestion" class="meetings-voice-textarea" rows="5" placeholder="or type your question"></textarea>
+          </label>
+          <div id="meetingsVoiceAnswer" class="meetings-voice-answer muted" aria-live="polite"></div>
+        </section>
+
+        <section class="meetings-list-shell meetings-hub-list-mode">
+          <div class="meetings-list-toolbar">
+            <details class="meetings-filters-dd" id="meetingsFiltersDd">
+              <summary class="meetings-filter-btn">Filters</summary>
+              <div class="meetings-filters-panel" id="meetingsFiltersPanel">
+                <span class="meetings-filter-label">Transcript</span>
+                <select id="meetingsTranscriptFilter" class="meetings-filter-select">
+                  <option value="all">All</option>
+                  <option value="ready">Ready</option>
+                  <option value="processing">Processing</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </details>
+          </div>
+          <div id="meetingsGroupedMount" class="meetings-grouped-mount"></div>
+          <p class="meetings-list-end muted" id="meetingsListEndFooter">You've reached the end of your meetings.</p>
+        </section>
+      </main>
+      <aside class="right-panel">
+        <section class="card mini">
+          <h3>Quick action</h3>
+          <button class="full-btn" id="newCaptureBtn">+ New capture</button>
+          <button class="full-btn" id="viewLastTranscriptBtn" style="margin-top: 8px; background: #eef2ff; color: #4338ca">
+            View last transcript
+          </button>
+        </section>
+      </aside>
+    </div>
+    <script src="/sidebar-toggle.js"></script>
+    <script src="/coach-focus.js"></script>
+    <script src="/dashboard.js"></script>
+  </body>
+</html>

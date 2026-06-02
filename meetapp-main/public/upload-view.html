@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recording — Meeting Coach MVP</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="upload-view">
+    <div class="layout layout-split-main">
+      <aside class="sidebar">
+        <div class="sidebar-toolbar">
+          <div class="brand">Meetingly</div>
+          <button type="button" class="sidebar-toggle-btn" aria-expanded="true" title="Collapse menu" aria-label="Collapse navigation">‹</button>
+        </div>
+        <nav class="menu">
+          <a class="menu-item" href="/index.html">Home</a>
+          <a class="menu-item active" href="/meetings.html">Meetings</a>
+          <a class="menu-item" href="/uploads.html">Uploads</a>
+          <a class="menu-item" href="/analytics.html">Analytics</a>
+          <a class="menu-item" href="/team.html">Team</a>
+          <a class="menu-item" href="/settings.html">Settings</a>
+        </nav>
+      </aside>
+
+      <div class="upload-review-shell">
+        <aside class="upload-review-insights" id="uploadReviewInsights" aria-label="Meeting insights">
+          <div class="upload-insights-scroll">
+            <section class="upload-insights-block">
+              <label class="upload-insights-kicker" for="uploadViewSmartSearch">Smart Search</label>
+              <div class="upload-insights-search-wrap">
+                <span class="upload-insights-search-ico" aria-hidden="true">⌕</span>
+                <input
+                  id="uploadViewSmartSearch"
+                  type="search"
+                  class="upload-insights-search-input"
+                  placeholder="Search this meeting…"
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+              </div>
+            </section>
+            <section class="upload-insights-block">
+              <h3 class="upload-insights-kicker">AI filters</h3>
+              <div id="uploadInsightsAiFiltersGrid" class="ai-filters-grid" aria-label="Transcript highlights"></div>
+            </section>
+            <section class="upload-insights-block">
+              <h3 class="upload-insights-kicker">Sentiments</h3>
+              <p class="upload-insights-muted-note">Heuristic from keyword cues in the transcript (not a clinical sentiment model).</p>
+              <div id="uploadInsightsSentimentRows" class="sentiment-rows"></div>
+            </section>
+            <section class="upload-insights-block">
+              <h3 class="upload-insights-kicker">Speaker talktime</h3>
+              <div id="uploadInsightsSpeakerRows" class="speaker-insights-rows"></div>
+            </section>
+            <section class="upload-insights-block">
+              <div class="upload-insights-topic-head">
+                <h3 class="upload-insights-kicker">Topic trackers</h3>
+                <button type="button" class="upload-insights-topic-add" id="uploadInsightsTopicAddBtn" title="Track a keyword">
+                  +
+                </button>
+              </div>
+              <div id="uploadInsightsTopicChips" class="topic-tracker-chips"></div>
+            </section>
+          </div>
+        </aside>
+
+        <main class="upload-review-main">
+          <p id="pageError" class="upload-view-banner-error"></p>
+          <nav class="upload-view-crumb muted" id="uploadViewCrumb">
+            <a href="/meetings.html">&larr; Meetings</a>
+            <span class="crumb-sep">·</span>
+            <a href="/uploads.html">Uploads</a>
+          </nav>
+
+          <section class="card upload-view-hero-card">
+            <div class="upload-media-stage">
+              <div id="uploadMediaMount" class="upload-media-mount"></div>
+            </div>
+            <h1 id="uploadViewTitle" class="upload-view-title heading-like">Recording</h1>
+            <p id="uploadViewMeta" class="muted upload-view-meta"></p>
+          </section>
+
+          <section class="card upload-view-notes hidden" id="uploadViewCoachCard">
+            <h2 class="subsection-title">AI coach</h2>
+            <div class="upload-view-coach-focus hidden" id="uploadViewCoachFocusRow">
+              <label class="muted" for="uploadViewCoachFocusSelect">Coach for</label>
+              <select
+                id="uploadViewCoachFocusSelect"
+                class="upload-view-coach-focus-select"
+                aria-label="Coach focus speaker"
+              ></select>
+              <p class="muted upload-view-coach-focus-hint hidden" id="uploadViewCoachFocusHint"></p>
+            </div>
+            <div id="uploadViewCoachMount"></div>
+          </section>
+        </main>
+
+        <aside class="upload-review-transcript" aria-label="Transcript panel">
+          <div class="transcript-panel-header">
+            <div class="transcript-tabs" role="tablist">
+              <button
+                type="button"
+                class="transcript-tab active"
+                data-upload-tab="transcript"
+                role="tab"
+                aria-selected="true"
+              >
+                Transcript
+              </button>
+              <button
+                type="button"
+                class="transcript-tab hidden"
+                data-upload-tab="analytics"
+                role="tab"
+                aria-selected="false"
+              >
+                Session analytics
+              </button>
+              <button type="button" class="transcript-tab" data-upload-tab="coach" role="tab" aria-selected="false">
+                Ask coach
+              </button>
+              <button type="button" class="transcript-tab" data-upload-tab="skills" role="tab" aria-selected="false">
+                AI skills
+              </button>
+            </div>
+          </div>
+          <div class="transcript-panels-stack">
+            <div class="upload-view-tab-panel" id="uploadViewPanelTranscript" data-upload-panel="transcript">
+              <div class="transcript-toolbar transcript-toolbar-in-panel">
+                <input
+                  type="search"
+                  id="transcriptSearch"
+                  class="transcript-search"
+                  placeholder="Find in transcript…"
+                  autocomplete="off"
+                />
+                <button type="button" class="menu-action compact" id="uploadViewCopyBtn">Copy all</button>
+              </div>
+              <div class="transcript-scroll" id="transcriptScroll">
+                <div id="transcriptLines" class="transcript-lines"></div>
+              </div>
+            </div>
+            <div class="upload-view-tab-panel hidden" id="uploadViewPanelAnalytics" data-upload-panel="analytics">
+              <div class="skills-panel-scroll">
+                <p id="uploadViewAnalyticsError" class="upload-view-banner-error"></p>
+                <p class="muted" style="margin: 0 0 0.5rem">
+                  Same metrics as <a href="/analytics.html">Analytics</a>, for this meeting only (transcript + coach
+                  analysis).
+                </p>
+                <p id="uploadViewAnalyticsMeta" class="muted" style="margin: 0 0 0.75rem; font-size: 0.88rem"></p>
+                <div class="kpi-grid">
+                  <div class="kpi">
+                    <div class="label">Grammar score</div>
+                    <div class="value" id="uploadViewKpiGrammar">—</div>
+                  </div>
+                  <div class="kpi">
+                    <div class="label">Pronunciation score</div>
+                    <div class="value" id="uploadViewKpiPronunciation">—</div>
+                  </div>
+                  <div class="kpi">
+                    <div class="label">Filler words / min</div>
+                    <div class="value" id="uploadViewKpiFillerWords">—</div>
+                  </div>
+                </div>
+                <h3 class="subsection-title" style="margin-top: 1rem">Improvement snapshot</h3>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Area</th>
+                      <th>Current</th>
+                      <th>Target</th>
+                    </tr>
+                  </thead>
+                  <tbody id="uploadViewImprovementTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="upload-view-tab-panel hidden" id="uploadViewPanelCoach" data-upload-panel="coach">
+              <div class="coach-chat-context" id="uploadViewCoachContext">
+                <div class="coach-chat-context-field">
+                  <label class="coach-chat-context-label" for="uploadViewCoachRole">Who you are</label>
+                  <input
+                    type="text"
+                    id="uploadViewCoachRole"
+                    class="coach-chat-context-input"
+                    maxlength="280"
+                    placeholder="e.g. Account executive, interviewer, Scrum Master"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="coach-chat-context-field">
+                  <label class="coach-chat-context-label" for="uploadViewCoachPurpose">Your goal</label>
+                  <input
+                    type="text"
+                    id="uploadViewCoachPurpose"
+                    class="coach-chat-context-input"
+                    maxlength="280"
+                    placeholder="e.g. Close next step, onboard a client, calm a tense update"
+                    autocomplete="off"
+                  />
+                </div>
+                <p class="muted coach-chat-context-hint">
+                  Used for Ask coach and AI analysis on this page—even if you skipped them at capture. When this
+                  recording is a saved meeting, edits here sync automatically.
+                </p>
+              </div>
+              <div class="coach-chat-scroll" id="uploadViewCoachChatScroll">
+                <p class="muted coach-chat-hint" id="uploadViewCoachChatHint">
+                  Ask anything about tone, clarity, risks, or next steps. Answers use this transcript as context.
+                </p>
+                <div id="uploadViewCoachMessages" class="coach-chat-messages" aria-live="polite"></div>
+              </div>
+              <div class="coach-chat-suggestions" id="uploadViewCoachSuggestions" aria-label="Suggested questions">
+                <button type="button" class="coach-suggestion-chip" data-coach-q="What were the clearest action items?">
+                  Action items
+                </button>
+                <button type="button" class="coach-suggestion-chip" data-coach-q="What should I improve for the next similar call?">
+                  Improve next call
+                </button>
+                <button type="button" class="coach-suggestion-chip" data-coach-q="Was the opening clear and confident?">
+                  Opening tone
+                </button>
+              </div>
+              <div class="coach-chat-input-row">
+                <label class="visually-hidden" for="uploadViewCoachQuestion">Your question</label>
+                <textarea
+                  id="uploadViewCoachQuestion"
+                  class="coach-chat-textarea"
+                  placeholder="Ask the coach…"
+                  rows="2"
+                  autocomplete="off"
+                ></textarea>
+                <button type="button" class="primary-btn coach-chat-send" id="uploadViewCoachSend">Ask</button>
+              </div>
+              <p id="uploadViewCoachAskStatus" class="grammar-reason coach-chat-status"></p>
+            </div>
+            <div class="upload-view-tab-panel hidden" id="uploadViewPanelSkills" data-upload-panel="skills">
+              <div class="skills-panel-scroll">
+                <div id="uploadViewSkillsMount"></div>
+                <button type="button" class="menu-action skills-generate-btn hidden" id="uploadViewSkillsGenerate">
+                  Generate from transcript
+                </button>
+                <p id="uploadViewSkillsStatus" class="grammar-reason skills-generate-status"></p>
+              </div>
+            </div>
+          </div>
+          <footer class="upload-transcript-transport hidden" id="uploadTranscriptTransport" aria-label="Playback controls">
+            <div class="upload-transport-extra">
+              <button type="button" class="upload-transport-genlink" id="uploadTransportSkillsStub">
+                Regenerate from transcript
+              </button>
+            </div>
+            <div class="upload-transport-scrub-wrap">
+              <input
+                type="range"
+                id="uploadTransportScrub"
+                min="0"
+                max="1000"
+                step="1"
+                value="0"
+                aria-label="Playback position"
+              />
+            </div>
+            <div class="upload-transport-inner">
+              <div class="upload-transport-center-cluster">
+                <span class="upload-transport-time" id="uploadTransportTime">00:00 / 00:00</span>
+                <button type="button" class="upload-transport-speed" id="uploadTransportSpeed" aria-label="Playback speed">1x</button>
+                <div class="upload-transport-main-controls">
+                  <button type="button" class="upload-transport-btn upload-transport-skip" id="uploadTransportRewind" aria-label="Rewind 10 seconds" title="Back 10s">
+                    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 5V1L7 6l5 5V7c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5H6c0 3.31 2.69 6 6 6s6-2.69 6-6-2.69-6-6-6z"/></svg>
+                  </button>
+                  <button type="button" class="upload-transport-btn upload-transport-play" id="uploadTransportPlay" aria-label="Play" title="Play">
+                    <svg class="upload-transport-icon-play" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                    <svg class="upload-transport-icon-pause hidden" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                  </button>
+                  <button type="button" class="upload-transport-btn upload-transport-skip" id="uploadTransportForward" aria-label="Forward 10 seconds" title="Forward 10s">
+                    <svg class="upload-transport-flip-x" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 5V1L7 6l5 5V7c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5H6c0 3.31 2.69 6 6 6s6-2.69 6-6-2.69-6-6-6z"/></svg>
+                  </button>
+                </div>
+              </div>
+              <a class="upload-transport-btn upload-transport-download" id="uploadTransportDownload" href="#" download aria-label="Download recording" title="Download">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              </a>
+            </div>
+          </footer>
+        </aside>
+      </div>
+    </div>
+    <script src="/sidebar-toggle.js"></script>
+    <script src="/coach-focus.js"></script>
+    <script src="/session-insights.js"></script>
+    <script src="/dashboard.js"></script>
+  </body>
+</html>

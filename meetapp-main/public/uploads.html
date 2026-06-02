@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Uploads - Meeting Coach MVP</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="uploads">
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-toolbar">
+          <div class="brand">Meetingly</div>
+          <button type="button" class="sidebar-toggle-btn" aria-expanded="true" title="Collapse menu" aria-label="Collapse navigation">‹</button>
+        </div>
+        <nav class="menu">
+          <a class="menu-item" href="/index.html">Home</a>
+          <a class="menu-item" href="/meetings.html">Meetings</a>
+          <a class="menu-item active" href="/uploads.html">Uploads</a>
+          <a class="menu-item" href="/analytics.html">Analytics</a>
+          <a class="menu-item" href="/team.html">Team</a>
+          <a class="menu-item" href="/settings.html">Settings</a>
+        </nav>
+      </aside>
+      <main class="content">
+        <section class="card">
+          <h2>Uploads</h2>
+          <p>Upload meeting files and monitor processing pipeline.</p>
+          <p id="pageError"></p>
+        </section>
+        <section class="card">
+          <h3>Add file</h3>
+          <p class="muted" style="margin-top: 0">
+            Role, purpose, and your name inform the transcript speaker tags (when speaker separation is on).
+          </p>
+          <div class="form-grid upload-context-grid">
+            <label>
+              Your name (optional — transcript tags)
+              <input id="uploadHostName" type="text" placeholder="e.g. Alex Erdal" autocomplete="name" />
+            </label>
+            <label>
+              Your role
+              <input id="uploadRole" type="text" placeholder="e.g. Sales Representative" autocomplete="organization-title" />
+            </label>
+            <label>
+              Meeting purpose
+              <input id="uploadPurpose" type="text" placeholder="e.g. Product demo to client" autocomplete="off" />
+            </label>
+          </div>
+          <label style="margin-top: 14px">
+            Select audio/video file
+            <input id="uploadFileInput" type="file" accept=".mp3,.wav,.m4a,.mp4,.webm,audio/*,video/*" />
+          </label>
+          <p id="uploadLimitHint" class="muted" style="margin-top: 8px"></p>
+          <div class="row">
+            <button id="uploadStartBtn">Upload + Transcribe</button>
+          </div>
+          <p id="uploadActionStatus"></p>
+        </section>
+        <section class="card">
+          <h3>Upload queue</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>File</th>
+                <th>Type</th>
+                <th>Duration</th>
+                <th>Status</th>
+                <th>Transcript</th>
+              </tr>
+            </thead>
+            <tbody id="uploadsTableBody"></tbody>
+          </table>
+        </section>
+        <section class="card">
+          <h3>Accepted formats</h3>
+          <ul id="uploadFormats"></ul>
+        </section>
+      </main>
+      <aside class="right-panel">
+        <section class="card mini">
+          <h3>Status</h3>
+          <p id="uploadPendingJobs">-</p>
+          <button class="full-btn" id="uploadFocusBtn" style="margin-top:8px;">+ Add File</button>
+        </section>
+      </aside>
+    </div>
+
+    <script src="/sidebar-toggle.js"></script>
+    <script src="/coach-focus.js"></script>
+    <script src="/dashboard.js"></script>
+  </body>
+</html>

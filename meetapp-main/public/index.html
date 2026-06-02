@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meeting Coach MVP</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-toolbar">
+          <div class="brand">Meetingly</div>
+          <button type="button" class="sidebar-toggle-btn" aria-expanded="true" title="Collapse menu" aria-label="Collapse navigation">‹</button>
+        </div>
+        <nav class="menu">
+          <a class="menu-item active" href="/index.html">Home</a>
+          <a class="menu-item" href="/meetings.html">Meetings</a>
+          <a class="menu-item" href="/uploads.html">Uploads</a>
+          <a class="menu-item" href="/analytics.html">Analytics</a>
+          <a class="menu-item" href="/team.html">Team</a>
+          <a class="menu-item" href="/settings.html">Settings</a>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <header class="app-nav card">
+          <div class="app-nav-left">Home</div>
+          <div class="app-search">
+            <label class="visually-hidden" for="homeGlobalSearch">Search meetings</label>
+            <input
+              type="search"
+              id="homeGlobalSearch"
+              placeholder="Search by title or keyword"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+          <div class="app-nav-actions">
+            <button class="ghost-btn" id="inviteBtn">Invite</button>
+            <button
+              type="button"
+              class="home-nav-capture-btn"
+              id="homeCaptureNavBtn"
+              aria-expanded="false"
+              aria-controls="capture"
+              title="Jump to Capture under Upcoming Meetings"
+            >
+              Capture
+            </button>
+            <div class="app-nav-notif-wrap">
+              <button
+                type="button"
+                class="icon-btn icon-btn--nav"
+                id="homeNotifBtn"
+                aria-expanded="false"
+                aria-controls="homeNotifPopover"
+                aria-haspopup="dialog"
+                title="Notifications"
+              >
+                🔔
+              </button>
+              <div id="homeNotifPopover" class="home-notif-popover hidden" role="dialog" aria-label="Notifications">
+                <div class="home-notif-popover-head">
+                  <span class="home-notif-popover-title">Notifications</span>
+                  <button type="button" class="home-notif-close" id="homeNotifClose" aria-label="Close">×</button>
+                </div>
+                <ul id="homeNotifList" class="home-notif-list"></ul>
+                <div class="home-notif-empty muted hidden" id="homeNotifEmpty">You’re all caught up.</div>
+                <div class="home-notif-footer">
+                  <a href="/settings.html#settings-email">Notification preferences</a>
+                  <button
+                    type="button"
+                    class="home-notif-reset"
+                    id="homeNotifResetDismissed"
+                    title="Restores notifications you hid with × (this browser only)"
+                  >
+                    Show dismissed again
+                  </button>
+                </div>
+              </div>
+            </div>
+            <a href="/settings.html" class="icon-btn icon-btn--nav icon-btn--link" title="Settings" aria-label="Open settings">
+              ⚙
+            </a>
+          </div>
+        </header>
+
+        <section id="homeSearchResults" class="card home-search-results hidden" aria-live="polite">
+          <div class="home-search-results-head">
+            <span class="tiny-title">Matching meetings</span>
+            <a href="/meetings.html" class="home-search-see-all muted" id="homeSearchSeeAll">See all on Meetings</a>
+          </div>
+          <ul id="homeSearchResultsList" class="home-search-results-list"></ul>
+          <p id="homeSearchEmpty" class="muted home-search-empty hidden">No meetings match that search.</p>
+        </section>
+
+        <header class="topbar card">
+          <div>
+            <h1>Welcome aboard</h1>
+            <p>Your meeting workspace is ready.</p>
+          </div>
+        </header>
+
+        <section class="hero-card">
+          <div class="hero-media">▶</div>
+          <h2>Welcome Aboard</h2>
+          <p>Meetingly is now ready to automate your meetings and streamline your workflows.</p>
+        </section>
+
+        <section class="promo-bar">
+          <span>Meetingly Desktop App - Get real-time notes, transcripts, and assistance without a meeting bot.</span>
+          <button class="ghost-btn" id="downloadBtn">Download</button>
+        </section>
+
+        <section class="card slim-card" id="homeOverviewCard">
+          <div class="overview-card-shell">
+            <button
+              type="button"
+              class="overview-card-hit"
+              id="homeOverviewHit"
+              aria-label="Open Capture — suggested first steps"
+            >
+              <p class="tiny-title overview-card-hit-label">Get to Know Meetingly</p>
+              <strong class="overview-card-hit-title">Meetingly AI Platform Quick Overview</strong>
+              <p class="muted overview-card-hit-sub">Suggested first steps — Aug 08 2024, 1:22 PM</p>
+            </button>
+            <details class="overview-card-dd">
+              <summary class="overview-card-kebab" aria-haspopup="menu" aria-label="Overview actions">
+                ⋯
+              </summary>
+              <div class="overview-card-menu" role="menu" aria-label="Overview">
+                <button type="button" class="overview-card-menu-btn" role="menuitem" data-overview-action="capture">
+                  Jump to Capture
+                </button>
+                <button type="button" class="overview-card-menu-btn" role="menuitem" data-overview-action="meetings">
+                  View Meetings
+                </button>
+                <button type="button" class="overview-card-menu-btn" role="menuitem" data-overview-action="uploads">
+                  Upload recording
+                </button>
+                <button type="button" class="overview-card-menu-btn" role="menuitem" data-overview-action="analytics">
+                  Analytics
+                </button>
+                <hr class="overview-card-menu-rule" />
+                <button type="button" class="overview-card-menu-btn overview-card-menu-btn--muted" role="menuitem" data-overview-action="dismiss">
+                  Hide this card
+                </button>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="card transcript-section hidden" aria-hidden="true">
+          <h2>Transcript</h2>
+          <pre id="transcript"></pre>
+        </section>
+
+        <section class="card transcript-section hidden" aria-hidden="true">
+          <h2>AI Feedback</h2>
+          <h3>Summary</h3>
+          <p id="summary"></p>
+          <h3>Grammar Fixes</h3>
+          <p class="grammar-reason">Red = detected issue, Green = suggested correction.</p>
+          <ul id="grammarFixes"></ul>
+          <h3>Pronunciation Feedback</h3>
+          <p class="grammar-reason">
+            Tap ▶ Listen to compare: the browser reads the phrase aloud (like Google Translate — Web Speech API, not your meeting audio).
+          </p>
+          <ul id="pronunciationFeedback"></ul>
+          <h3>Coaching Tips</h3>
+          <ul id="coachingTips"></ul>
+        </section>
+      </main>
+
+      <aside class="right-panel">
+        <section class="card mini">
+          <h3>Meeting Notetaker</h3>
+          <button class="setting-row" id="calendarSettingsBtn">
+            <span>Calendar meeting settings</span>
+            <span>›</span>
+          </button>
+          <button class="setting-row" id="meetingLanguageBtn">
+            <span>Meeting language</span>
+            <span>English (Global)</span>
+          </button>
+        </section>
+
+        <section class="card mini">
+          <h3>Upcoming Meetings</h3>
+          <div id="upcomingMeetingsMount" class="upcoming-meetings-mount">
+            <p class="muted upcoming-meetings-status" id="upcomingMeetingsStatus">Loading…</p>
+            <ul id="upcomingMeetingsList" class="upcoming-meetings-list hidden"></ul>
+          </div>
+          <details class="home-side-capture-dd" id="capture">
+            <summary class="home-side-capture-summary">Open Capture</summary>
+            <div class="app-nav-capture-panel home-side-capture-panel" id="capturePanelInner">
+              <p class="app-nav-capture-heading">Recording</p>
+              <label>
+                Your name (optional — helps tag you in transcripts)
+                <input id="captureHostName" placeholder="e.g. Alex Erdal" autocomplete="name" />
+              </label>
+              <label>
+                Your role
+                <input id="role" placeholder="e.g. Sales Representative" />
+              </label>
+              <label>
+                Meeting purpose
+                <input id="purpose" placeholder="e.g. Product demo to client" />
+              </label>
+              <div class="row app-nav-capture-rec-row">
+                <button id="startBtn">Start Recording</button>
+                <button id="stopBtn" disabled>Stop</button>
+                <button id="processBtn" disabled>Save to meetings</button>
+              </div>
+              <p id="recordingStatus" class="muted">Not recording</p>
+              <p id="recordingTimer" class="app-nav-capture-timer">00:00</p>
+              <p id="processStatus" class="muted"></p>
+              <div id="previewPlayer" class="custom-player hidden">
+                <div class="player-row">
+                  <button id="previewPlayBtn" type="button">Play</button>
+                  <button id="previewMuteBtn" type="button">Mute</button>
+                  <input id="previewVolume" type="range" min="0" max="1" step="0.05" value="1" />
+                </div>
+              </div>
+              <audio id="audioPreview" class="hidden"></audio>
+              <div class="app-nav-capture-divider"></div>
+              <p class="app-nav-capture-heading app-nav-capture-heading--muted">Shortcuts</p>
+              <button type="button" class="menu-action app-nav-capture-menu-btn" id="homeCaptureMeetBtn">
+                Open Google Meet
+              </button>
+              <button type="button" class="menu-action app-nav-capture-menu-btn" id="homeCaptureScheduleBtn">
+                Schedule meeting
+              </button>
+              <button type="button" class="menu-action app-nav-capture-menu-btn" id="homeCaptureUploadBtn">
+                Upload file
+              </button>
+            </div>
+          </details>
+          <p class="muted upcoming-side-note">
+            Recording lives under <strong>Open Capture</strong> · Top <strong>Capture</strong> opens the same panel ·
+            <a href="/uploads.html">Upload</a> ·
+            <a href="/index.html#schedule">Schedule</a>
+          </p>
+          <p class="muted upcoming-side-note upcoming-overview-restore hidden" id="homeOverviewRestoreWrap">
+            <button type="button" class="ghost-btn ghost-btn--xs" id="homeOverviewRestoreBtn">
+              Show “Get to Know Meetingly” card again
+            </button>
+          </p>
+        </section>
+      </aside>
+    </div>
+
+    <div class="modal-backdrop hidden" id="actionModalBackdrop">
+      <div class="modal-card">
+        <h3 id="actionModalTitle">Action</h3>
+        <p class="muted" id="actionModalDescription"></p>
+        <label>
+          <span id="actionModalInputLabel">Value</span>
+          <input id="actionModalInput" />
+        </label>
+        <label id="actionModalScheduleWrap" class="modal-field-schedule hidden">
+          <span>When (optional)</span>
+          <input type="datetime-local" id="actionModalScheduleAt" />
+        </label>
+        <p id="actionModalStatus" class="grammar-reason"></p>
+        <div class="row">
+          <button id="actionModalCancel" type="button">Cancel</button>
+          <button id="actionModalSubmit" type="button">Submit</button>
+        </div>
+      </div>
+    </div>
+    <script src="/sidebar-toggle.js"></script>
+    <script src="/auth.js"></script>
+    <script src="/coach-focus.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

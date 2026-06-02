@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create account — Meeting Coach MVP</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="auth-page">
+    <div class="auth-shell">
+      <a class="auth-brand" href="/index.html">Meetingly</a>
+      <div class="card auth-card">
+        <h1 class="auth-title">Create account</h1>
+        <p class="auth-lead">Passwords are hashed on the server (bcrypt) and stored in the local workspace JSON database.</p>
+        <form id="authSignupForm">
+          <label class="auth-label">
+            Name
+            <input type="text" id="authSignupName" name="name" required autocomplete="name" />
+          </label>
+          <label class="auth-label">
+            Email
+            <input type="email" id="authSignupEmail" name="email" required autocomplete="email" />
+          </label>
+          <label class="auth-label">
+            Password
+            <input type="password" id="authSignupPassword" name="password" required minlength="8" autocomplete="new-password" />
+          </label>
+          <p id="authSignupError" class="auth-error" role="alert"></p>
+          <button type="submit" class="primary-btn auth-submit">Sign up</button>
+        </form>
+        <p class="auth-alt">
+          <a href="/login.html">Already have an account? Sign in</a>
+        </p>
+      </div>
+    </div>
+    <script src="/signup.js"></script>
+  </body>
+</html>

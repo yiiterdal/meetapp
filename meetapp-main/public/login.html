@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in — Meeting Coach MVP</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="auth-page">
+    <div class="auth-shell">
+      <a class="auth-brand" href="/index.html">Meetingly</a>
+      <div class="card auth-card">
+        <h1 class="auth-title">Sign in</h1>
+        <p class="auth-lead">
+          Sign in with your <strong>Gmail</strong> or Google account — no separate registration or signup step.
+        </p>
+        <section id="authGoogleSection" class="auth-google-section" hidden>
+          <div id="googleSignInMount" class="auth-google-mount"></div>
+        </section>
+        <div id="authOrDivider" class="auth-divider" hidden><span>or</span></div>
+        <p class="auth-fallback-caption muted">If Sign-In with Google isn’t set up here, use any email and password (demo).</p>
+        <form id="authLoginForm">
+          <label class="auth-label">
+            Email
+            <input type="email" id="authLoginEmail" name="email" required autocomplete="email" />
+          </label>
+          <label class="auth-label">
+            Password
+            <input type="password" id="authLoginPassword" name="password" required minlength="1" autocomplete="current-password" />
+          </label>
+          <p id="authLoginError" class="auth-error" role="alert"></p>
+          <button type="submit" class="primary-btn auth-submit">Continue</button>
+        </form>
+        <p class="auth-alt"><a href="/signup.html">Create password account</a> · <a href="/meetings.html">Back to app</a></p>
+      </div>
+    </div>
+    <script src="/auth.js"></script>
+  </body>
+</html>

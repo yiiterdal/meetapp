@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings — Meeting Coach MVP</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="settings">
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-toolbar">
+          <div class="brand">Meetingly</div>
+          <button type="button" class="sidebar-toggle-btn" aria-expanded="true" title="Collapse menu" aria-label="Collapse navigation">‹</button>
+        </div>
+        <nav class="menu">
+          <a class="menu-item" href="/index.html">Home</a>
+          <a class="menu-item" href="/meetings.html">Meetings</a>
+          <a class="menu-item" href="/uploads.html">Uploads</a>
+          <a class="menu-item" href="/analytics.html">Analytics</a>
+          <a class="menu-item" href="/team.html">Team</a>
+          <a class="menu-item active" href="/settings.html">Settings</a>
+        </nav>
+      </aside>
+      <main class="content content-settings-modern">
+        <header class="card settings-intro-card">
+          <h2 class="settings-page-title">Settings</h2>
+          <p class="muted settings-page-lead">
+            Tune capture, transcripts, notifications, and sharing — saved to your workspace.
+          </p>
+          <p id="pageError" class="upload-view-banner-error"></p>
+          <div id="settingsSaved" class="settings-saved-banner" role="status" aria-live="polite"></div>
+        </header>
+
+        <form id="settingsForm" class="settings-form">
+          <div class="settings-layout">
+            <nav class="card settings-local-nav" aria-label="Settings sections">
+              <span class="settings-local-nav-title">Navigate</span>
+              <a class="settings-jump-link" href="#settings-recording">Recording & transcripts</a>
+              <a class="settings-jump-link" href="#settings-privacy">Privacy & access</a>
+              <a class="settings-jump-link" href="#settings-email">Email & notifications</a>
+              <a class="settings-jump-link" href="#settings-integrations">Integrations</a>
+            </nav>
+
+            <div class="settings-panels">
+              <section id="settings-recording" class="settings-section card">
+                <h3 class="settings-section-heading">Recording & transcripts</h3>
+                <p class="settings-section-lead muted">What we capture automatically and how text is processed.</p>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Calendar-assisted capture</div>
+                      <p class="settings-row-desc muted">Plan future hooks for meetings that include video links.</p>
+                      <div class="settings-row-follow" id="calendarScopeWrap">
+                        <label class="settings-inline-label muted" for="calendarRecordScope">Scope</label>
+                        <select class="settings-select-native" id="calendarRecordScope" name="calendarRecordScope">
+                          <option value="events_with_link">Events with meeting link only</option>
+                          <option value="all_calendar">All titled calendar events</option>
+                          <option value="organized_only">Meetings you organize</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="calendarAutoRecord" name="calendarAutoRecord" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon muted-ico-pro" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                      <span class="settings-pro-cap" title="Premium tier">👑</span>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Meeting video artifact</div>
+                      <p class="settings-row-desc muted">Retain shared-screen style video beside audio (planned).</p>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="captureMeetingVideo" name="captureMeetingVideo" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03A17.53 17.53 0 0014.07 6H17V4h-7V2H9v2H4v1.99h11.17C14.22 9.92 13 13.56 13 13.56 12.71 13.71 11.93 13.93 11.93 13.93l-3.93 3.84L7 21h2l3.93-4.04z"/><path fill="currentColor" d="M15.73 17.93L14.93 21h2l.77-3.06-2-.01z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Default meeting language</div>
+                      <p class="settings-row-desc muted">Used when sending text to transcription and summaries.</p>
+                      <select class="settings-select-native settings-select-inline" id="defaultLanguage" name="defaultLanguage">
+                        <option value="English (Global)">English (Global)</option>
+                        <option value="English">English</option>
+                        <option value="Turkish">Turkish</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="French">French</option>
+                        <option value="German">German</option>
+                        <option value="Multilingual (auto detect)">Multilingual (auto detect)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M19 12.87c.71.31 1.12 1.04 1 1.76l-.31 2.21c-.12.73-.71 1.27-1.45 1.35L16 18c-.76.06-1.46-.43-1.71-1.15l-.7-2.06a7.974 7.974 0 01-5.73 0l-.7 2.06c-.25.71-.95 1.21-1.71 1.15l-2.26-.81c-.74-.07-1.33-.61-1.45-1.35l-.31-2.21c-.12-.72.29-1.45 1-1.76l2.06-1-.7-2.06c-.25-.71-.06-1.53.47-2.06L5.93 9c.62-.61 1.54-.71 2.29-.41l2.06 1 1.12-2.06a1.983 1.983 0 012.41-.89l2.06.93c.75.34 1.24 1.09 1.24 1.92s-.49 1.58-1.24 1.92l-2.06.93 1.12 2.06c.53.53.72 1.35.47 2.06z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Recording quality preset</div>
+                      <p class="settings-row-desc muted">Balances file size and clarity for uploads.</p>
+                      <select class="settings-select-native settings-select-inline" id="recordingQuality" name="recordingQuality">
+                        <option value="standard">Standard · smaller files</option>
+                        <option value="high">Higher clarity</option>
+                        <option value="speech_focus">Speech‑optimized mono</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Auto-delete older meetings</div>
+                      <p class="settings-row-desc muted">Deletes stored notes &amp; uploads after retention (planned enforcement).</p>
+                      <select class="settings-select-native settings-select-inline" id="autoDeleteRetention" name="autoDeleteRetention">
+                        <option value="off">Off — keep until removed</option>
+                        <option value="30">After 30 days</option>
+                        <option value="90">After 90 days</option>
+                        <option value="365">After 1 year</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-divider"></div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M3 17v2h6v2h8v-2h6v-2H3zm2-13h14v10H5V4z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Speaker separation in transcripts</div>
+                      <p class="settings-row-desc muted">
+                        After capture/transcribe, a model labels turns; names come from spoken intros if clear, optional “your name” on Home/Upload as a hint — not true voice biometric diarization.
+                      </p>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="transcriptSpeakerSeparation" name="transcriptSpeakerSeparation" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M19 11h-8v6h8v-6zm4 8V4.98C23 3.88 22.1 3 21 3H3c-1.1 0-2 .88-2 1.98V19c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2zm-2 .02H3V4.97h18v14.05z"/><path fill="currentColor" d="M13 13h8v6h-8v-6z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Auto transcription</div>
+                      <p class="settings-row-desc muted">Run speech-to-text as soon as a file lands.</p>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="autoTranscription" name="autoTranscription" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.93-.25-2.73-.71l2.93-2.92-1.42-1.42-5 5-.01-.01L3 21l10.71-10.71A7.932 7.932 0 0015 13c4.97 0 9-4.03 9-9h3l-4-4zM6.75 9.22a6.957 6.957 0 002.71 8.56L6.73 17.93C4.94 14.93 5.51 11.53 8.06 9.22"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Auto analysis after transcript</div>
+                      <p class="settings-row-desc muted">Kick off grammar, pronunciation &amp; coaching when text is ready.</p>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="autoAnalysis" name="autoAnalysis" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+              </section>
+
+              <section id="settings-privacy" class="settings-section card">
+                <h3 class="settings-section-heading">Privacy & access</h3>
+                <p class="settings-section-lead muted">Defaults for visibility and discovery.</p>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Meeting privacy default</div>
+                      <p class="settings-row-desc muted">Applies to new meetings captured in Meetingly.</p>
+                      <select class="settings-select-native settings-select-inline" id="meetingPrivacyDefault" name="meetingPrivacyDefault">
+                        <option value="team_and_link">Teammates + anyone with secure link</option>
+                        <option value="team_only">Workspace members only</option>
+                        <option value="private_only">Owner only until shared</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon muted-ico-pro" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                      <span class="settings-pro-cap" title="Premium tier">👑</span>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Public recap link</div>
+                      <p class="settings-row-desc muted">Allow recipients without Meetingly login to preview selected fields.</p>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="publicGuestAccess" name="publicGuestAccess" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M9 16.17L5.53 12.7a.996.996 0 00-1.41 1.41l5 5c.39.39 1.02.39 1.41 0l10-10a.996.996 0 10-1.41-1.41L9 16.17z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Auto-request transcript access</div>
+                      <p class="settings-row-desc muted">Propose reviewer access automatically for meetings you attended.</p>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="autoRequestPrivateAccess" name="autoRequestPrivateAccess" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+              </section>
+
+              <section id="settings-email" class="settings-section card">
+                <h3 class="settings-section-heading">Email & notifications</h3>
+                <p class="settings-section-lead muted">Keep contributors aligned after each recording.</p>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Meeting recap emails</div>
+                      <p class="settings-row-desc muted">Deliver an automatic digest once processing succeeds.</p>
+                      <select class="settings-select-native settings-select-inline" id="recapEmailRecipients" name="recapEmailRecipients">
+                        <option value="owner_only">Owner only</option>
+                        <option value="owner_and_team">Calendar guests + teammates</option>
+                        <option value="all_workspace">Every workspace collaborator</option>
+                      </select>
+                      <label class="settings-inline-label muted" style="margin-top: 12px">What to include</label>
+                      <select class="settings-select-native settings-select-inline" id="recapIncludeDetail" name="recapIncludeDetail">
+                        <option value="overview">Overview &amp; next steps only</option>
+                        <option value="detailed_highlights">Highlights &amp; short transcript snippets</option>
+                        <option value="full_outline">Structured outline sections</option>
+                      </select>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="recapEmailEnabled" name="recapEmailEnabled" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M20 17H7V10h13v7zm4-13H19V4h2v17H5V4h2v0H7V2H5c-.9 0-1.71.39-2.34 1.02C3.71 4.61 4 7.62 5 13h15c-.98-6.62-.29-10.61 1.04-13H24v17z"/><path fill="currentColor" d="M5 21h14v2H5z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Pre-meeting prep email</div>
+                      <p class="settings-row-desc muted">One hour reminder with context from adjacent meetings.</p>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="meetingPrepEmail" name="meetingPrepEmail" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+
+                <div class="settings-divider"></div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M7 17h10v5H7v-5zm8-9h-6a2 2 0 00-2 2v3h10v-3a2 2 0 00-2-2zm-10 4h2v-4c0-2.76 2.24-5 5-5s5 2.24 5 5v4h2V9a7 7 0 10-14 0v7z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Weekly progress report</div>
+                      <p class="settings-row-desc muted">Coach metrics &amp; practice streaks summarized every Monday.</p>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="weeklyProgress" name="weeklyProgress" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Rich email summary after each meeting</div>
+                      <p class="settings-row-desc muted">Share AI coach digest per session.</p>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="emailSummary" name="emailSummary" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Desktop browser notifications</div>
+                      <p class="settings-row-desc muted">Notify when uploads finish transcription.</p>
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="browserNotifications" name="browserNotifications" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+              </section>
+
+              <section id="settings-integrations" class="settings-section card">
+                <h3 class="settings-section-heading">Integrations</h3>
+                <p class="settings-section-lead muted">Connect Meetingly into your toolchain.</p>
+
+                <div class="settings-row">
+                  <div class="settings-row-main">
+                    <span class="settings-row-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M6 15c-.83 0-1.5-.67-1.5-1.5S5.17 12 6 12s1.5.67 1.5 1.5S6.83 15 6 15zm12 5.5h-11c-.83 0-1.5-.67-1.5-1.5 0-.83.67-1.5 1.5-1.5h11c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5zm0-13h-2.5v-7C15.5.67 14.83 0 14 0h-4c-.83 0-1.5.67-1.5 1.5V7.5H6c-2.76 0-5 2.24-5 5s2.24 5 5 5h12c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+                    </span>
+                    <div>
+                      <div class="settings-row-title">Slack digest channel</div>
+                      <p class="settings-row-desc muted">
+                        When coaching completes, the server posts to an <a href="https://api.slack.com/messaging/webhooks" target="_blank" rel="noopener noreferrer">Incoming Webhook</a> (or set
+                        <code class="settings-code-inline">SLACK_WEBHOOK_URL</code> in <code class="settings-code-inline">.env</code>).
+                      </p>
+                      <label class="settings-inline-field muted" for="slackWebhookUrl">Webhook URL</label>
+                      <input
+                        type="url"
+                        id="slackWebhookUrl"
+                        name="slackWebhookUrl"
+                        class="settings-text-input settings-text-input--wide"
+                        placeholder="https://hooks.slack.com/services/…"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+                  <label class="settings-switch">
+                    <input type="checkbox" id="slackIntegrationAlerts" name="slackIntegrationAlerts" />
+                    <span class="settings-switch-track"></span>
+                  </label>
+                </div>
+
+                <div class="settings-divider"></div>
+
+                <div class="settings-row settings-row--integrations-google">
+                  <div class="settings-row-main settings-row-main--full">
+                    <span class="settings-row-icon settings-row-icon-emoji" aria-hidden="true">📅</span>
+                    <div>
+                      <div class="settings-row-title">Google Calendar &amp; Meet</div>
+                      <p class="settings-row-desc muted">
+                        Connect once here. Upcoming events and Google Meet links are shown on the <strong>Meetings</strong> page.
+                      </p>
+                      <p id="googleCalStatusLine" class="google-cal-status muted"></p>
+                      <div class="google-cal-actions">
+                        <button type="button" class="primary-btn google-cal-btn-main" id="googleCalConnectBtn">
+                          Connect Google Calendar
+                        </button>
+                        <button type="button" class="ghost-btn" id="googleCalDisconnectBtn" hidden>
+                          Disconnect
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <div class="settings-sticky-submit card">
+            <div class="settings-sticky-submit-inner">
+              <p class="muted settings-sticky-copy">Changes apply to linked meetings saved on this workstation.</p>
+              <button type="submit" class="primary-btn settings-save-btn">Save changes</button>
+            </div>
+          </div>
+        </form>
+      </main>
+      <aside class="right-panel">
+        <section class="card mini settings-tip-card">
+          <h3>API &amp; automation</h3>
+          <p class="muted settings-tip-p">
+            Workspace key for future ingest scripts. Keep it in <code class="settings-code-inline">.env</code> on servers; rotate if leaked.
+          </p>
+          <p id="workspaceApiKeyLine" class="settings-workspace-key-line muted" aria-live="polite"></p>
+          <button type="button" class="menu-action compact" id="workspaceApiRotateBtn">Rotate key</button>
+        </section>
+        <section class="card mini settings-tip-card">
+          <h3>Rules builder</h3>
+          <p class="muted settings-tip-p">One keyword or phrase per line. Applied when running <strong>Analyze</strong> on the server.</p>
+          <label class="settings-mini-label" for="recordingRuleKeywords">Recording emphasis</label>
+          <textarea
+            id="recordingRuleKeywords"
+            name="recordingRuleKeywords"
+            form="settingsForm"
+            class="settings-rules-textarea"
+            rows="4"
+            placeholder="e.g. pricing&#10;contract"
+          ></textarea>
+          <label class="settings-mini-label" for="restrictionRuleKeywords" style="margin-top: 10px">Restriction / exclusion</label>
+          <textarea
+            id="restrictionRuleKeywords"
+            name="restrictionRuleKeywords"
+            form="settingsForm"
+            class="settings-rules-textarea"
+            rows="4"
+            placeholder="e.g. NDA&#10;patient name"
+          ></textarea>
+        </section>
+      </aside>
+    </div>
+    <script src="/sidebar-toggle.js"></script>
+    <script src="/coach-focus.js"></script>
+    <script src="/dashboard.js"></script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics - Meeting Coach MVP</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-page="analytics">
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-toolbar">
+          <div class="brand">Meetingly</div>
+          <button type="button" class="sidebar-toggle-btn" aria-expanded="true" title="Collapse menu" aria-label="Collapse navigation">‹</button>
+        </div>
+        <nav class="menu">
+          <a class="menu-item" href="/index.html">Home</a>
+          <a class="menu-item" href="/meetings.html">Meetings</a>
+          <a class="menu-item" href="/uploads.html">Uploads</a>
+          <a class="menu-item active" href="/analytics.html">Analytics</a>
+          <a class="menu-item" href="/team.html">Team</a>
+          <a class="menu-item" href="/settings.html">Settings</a>
+        </nav>
+      </aside>
+      <main class="content">
+        <section class="card">
+          <h2>Analytics</h2>
+          <p>Communication quality trends from your meeting history.</p>
+          <p id="pageError"></p>
+        </section>
+        <section class="card">
+          <div class="kpi-grid">
+            <div class="kpi">
+              <div class="label">Avg grammar score</div>
+              <div class="value" id="kpiGrammar">-</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Pronunciation score</div>
+              <div class="value" id="kpiPronunciation">-</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Filler words / min</div>
+              <div class="value" id="kpiFillerWords">-</div>
+            </div>
+          </div>
+        </section>
+        <section class="card">
+          <h3>Top improvement areas</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Area</th>
+                <th>Current</th>
+                <th>Target</th>
+              </tr>
+            </thead>
+            <tbody id="improvementTableBody"></tbody>
+          </table>
+        </section>
+      </main>
+      <aside class="right-panel">
+        <section class="card mini">
+          <h3>Tip</h3>
+          <p>Use short sentences during key action points.</p>
+          <p style="margin-top:8px;">Say decisions with owner + deadline in one line.</p>
+        </section>
+      </aside>
+    </div>
+    <script src="/sidebar-toggle.js"></script>
+    <script src="/coach-focus.js"></script>
+    <script src="/dashboard.js"></script>
+  </body>
+</html>
